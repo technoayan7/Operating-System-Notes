@@ -25,17 +25,48 @@
 ### 4. **Program, Process, and Thread**
    - **Program**: A static set of instructions written to perform a task.
    - **Process**: A running instance of a program, actively using resources.
-   - **Thread**: The smallest sequence of programmed instructions within a process, allowing concurrent execution.
+   - **Process Table**: The operating system manages processes, allocating processor time and resources like memory
+and disks. The process table is maintained by the operating system
+to keep track of all processes, including their states and resources
+they are using.
+   - **Thread**: A thread is a single sequence of execution within a process, often
+called a lightweight process. Threads improve application performance through parallelism. For example, a web browser can use
+multiple threads for different tabs.
 
-### 5. **Socket, Shell, Kernel, and Monolithic Kernel**
+  
+  | **Process**                                         | **Thread**                                           |
+|-----------------------------------------------------|------------------------------------------------------|
+| A process is a program in execution.                | A thread is a smaller unit within a process.         |
+| Processes are isolated from each other.             | Threads share memory within the same process.        |
+| Process communication is less efficient.            | Thread communication is more efficient.              |
+| Processes are considered heavyweight.               | Threads are considered lightweight.                  |
+| Process switching requires OS intervention.         | Thread switching does not require OS intervention.   |
+| One blocked process doesn't affect others.          | A blocked thread can affect other threads in the same process. |
+
+
+### 5. **PCB, Socket, Shell, Kernel, and Monolithic Kernel**
+   - **Process Control Block (PCB)** tracks the execution status of a process,
+   containing information like registers, priority, and execution state. The process
+table is an array of PCBs, each representing a process in the system.
    - **Socket**: An endpoint for sending/receiving data over a network.
    - **Shell**: Interface to access OS services, either via command-line or GUI.
-   - **Kernel**: Core component managing system resources, like memory and CPU.
-   - **Monolithic Kernel**: A type of kernel where all OS services run in the same memory space for efficiency.
+   - **Kernel**: The kernel is the core component of an operating system, managing
+memory, CPU time, and hardware operations. It acts as a bridge
+between applications and hardware-level data processing.
+   - **Monolithic Kernel**: A monolithic kernel manages system resources and implements 
+   user and kernel services in the same address space, making the OS execution faster
+   but increasing its size. It handles CPU scheduling, memory management, file management,
+and other functions through system calls.
 
 ### 6. **Multitasking vs. Multithreading**
-   - **Multitasking**: Running multiple applications simultaneously.
-   - **Multithreading**: Running multiple threads within a single application to improve efficiency.
+
+| **Multi-threading**                                         | **Multi-tasking**                                       |
+|-------------------------------------------------------------|--------------------------------------------------------|
+| Multiple threads are executed at the same time within the same or different parts of a program. | Several programs (or tasks) are executed concurrently. |
+| The CPU switches between multiple threads.                  | The CPU switches between multiple tasks or processes.   |
+| It is a lightweight process, involving parts of a single process. | It is a heavyweight process, involving multiple processes. |
+| Multi-threading is a feature of the process, allowing it to split into threads. | Multitasking is a feature of the OS, enabling it to handle multiple applications. |
+| Involves sharing computing resources among threads of a single process. | Involves sharing computing resources (CPU, memory, devices) among multiple processes. |
 
 ### 7. **Multitasking vs. Multiprocessing**
    - **Multitasking**: Uses one CPU to run multiple tasks by quickly switching between them.
@@ -60,7 +91,9 @@
    - **Purpose**: Frees up memory for active processes, improving system performance.
 
 ### 12. **Context Switching**
-   - **Definition**: Process of saving and restoring the state of a CPU so a different process can run.
+   - **Definition**: Context switching involves saving the state of a currently running process and
+loading the saved state of a new process. The process state is stored in the
+Process Control Block, allowing the old process to resume from where it left off.
    - **Overhead**: Increases CPU load but allows multitasking.
 
 ### 13. **Zombie Process & Orphan Process**
@@ -72,7 +105,8 @@
    - **Types**: RAID 0 (striping), RAID 1 (mirroring), RAID 5 (striping with parity), etc.
 
 ### 15. **Starvation and Aging**
-   - **Starvation**: A process waits indefinitely for resources.
+   - **Starvation**: when a process does not get the resources it needs for a long
+time because other processes are prioritized.
    - **Aging**: Gradually increases priority of waiting processes to prevent starvation.
 
 ### 16. **Scheduling Algorithms**
@@ -84,11 +118,11 @@
    - **Non-Preemptive**: Once a process starts, it runs until completion or voluntary release of CPU.
 
 ### 18. **FCFS & Convoy Effect**
-   - **FCFS (First-Come, First-Serve)**: Processes handled in order of arrival.
+   - **FCFS (First-Come, First-Serve)**: FCFS schedules jobs in the order they arrive in the ready queue. It is non-preemptive, meaning a process holds the CPU until it terminates or performs I/O, causing longer jobs to delay shorter ones.
    - **Convoy Effect**: Occurs in FCFS when a long process delays others behind it.
 
 ### 19. **Round Robin Scheduling**
-   - **Definition**: Assigns each process a fixed time slice in cyclic order.
+   - **Definition**: Schedules processes in a time slice or quantum, rotating through processes to ensure fair allocation of CPU time and preventing starvation. It is cyclic and does not prioritize any process.
    - **Advantage**: Fair and efficient for time-sharing systems.
 
 ### 20. **Priority Scheduling**
@@ -107,11 +141,19 @@
    - **Definition**: A part of code that accesses shared resources and must not be executed by more than one process at a time.
 
 ### 24. **Conditional Variable**
-   - **Definition**: A variable used to control access in multithreading, allowing threads to wait until certain conditions are met.
+   - **Definition**: 
 
-### 25. **Semaphores vs. Mutex**
-   - **Semaphore**: Allows multiple processes to access resources up to a limit.
-   - **Mutex**: Only allows one process at a time, preventing concurrent access.
+### 25. **Synch*ronization techniques?**
+
+ - - *Mutexes*
+ - - *Condition variables*
+ - - *Semaphores*
+ - - *File locks*
+
+- **Mutex**: Only allows one process at a time, preventing concurrent access.
+- **Conditional Variable**: A variable used to control access in multithreading, allowing threads to wait until certain conditions are met.
+- **Semaphore**: Allows multiple processes to access resources up to a limit.
+
 
 ### 26. **Binary vs. Counting Semaphores**
    - **Binary Semaphore**: Only two values (0 or 1), similar to a lock.
@@ -138,8 +180,12 @@
    - **Definition**: Temporary memory storage area for data exchange between components.
 
 ### 32. **Logical vs. Physical Address Space**
-   - **Logical Address**: Generated by CPU, virtual.
-   - **Physical Address**: Actual location in memory.
+   | **Parameter**            | **Logical Address**                               | **Physical Address**                              |
+|--------------------------|--------------------------------------------------|--------------------------------------------------|
+| **Basic**                | Generated by the CPU.                            | Located in a memory unit.                        |
+| **Address Space**        | Set of all logical addresses generated by the CPU. | Set of all physical addresses corresponding to logical addresses. |
+| **Visibility**           | Visible to the user.                             | Not visible to the user.                         |
+| **Generation**           | Created by the CPU.                              | Computed by the Memory Management Unit (MMU).    |
 
 ### 33. **Memory Management Unit (MMU)**
    - **Definition**: Hardware that translates logical to physical addresses.
@@ -150,41 +196,67 @@
 
 ### 35. **Cache**
    - **Definition**: Small, fast memory close to the CPU for quick access to frequently used data.
+   - **Caching**: Caching involves using a smaller, faster memory to store copies of data from
+   frequently used main memory locations. Various independent caches within a
+CPU store instructions and data, reducing the average time needed to access
+data from the main memory.
 
 ### 36. **Direct Mapping vs. Associative Mapping**
    - **Direct Mapping**: Each block has a fixed cache location.
    - **Associative Mapping**: Any block can go into any cache line, more flexible.
 
 ### 37. **Fragmentation**
+   - **Internal Fragmentation**: Fragmentation occurs when free memory space is too small to allocate
+    to processes, leaving unusable memory blocks. It happens during dynamic memory allocation 
+    when small free blocks cannot satisfy any request.
    - **Internal Fragmentation**: Wasted space within allocated memory.
    - **External Fragmentation**: Wasted space outside allocated memory.
+   
+   | **Internal Fragmentation**                                   | **External Fragmentation**                                 |
+|--------------------------------------------------------------|-----------------------------------------------------------|
+| Fixed-sized memory blocks are allocated to processes.        | Variable-sized memory blocks are allocated to processes.   |
+| Occurs when allocated memory blocks are larger than required by the process. | Occurs when free memory is scattered in small, unusable fragments. |
+| Solution: Best-fit block allocation.                         | Solution: Compaction, paging, and segmentation.            |
+| Arises when memory is divided into fixed-sized partitions.   | Arises when memory is divided into variable-sized partitions. |
+| Difference between allocated and required memory is wasted.  | Unused spaces between allocated blocks are too small for new processes. |
 
 ### 38. **Defragmentation**
    - **Definition**: Process of rearranging memory to reduce fragmentation.
+   - **Compaction**: The process of collecting fragments of available memory space into contiguous blocks by moving programs and data in a computers memory or disk.
 
 ### 39. **Spooling**
    - **Definition**: Storing data temporarily for devices to access when ready, like print jobs.
+   - Spooling stands for Simultaneous Peripheral Operations Online, which involves
+placing jobs in a buffer, either in memory or on a disk, where a device can access
+them when ready. It helps manage different data access rates of devices
 
 ### 40. **Overlays**
-   - **Definition**: Loading only needed parts of a program into memory to save space.
+   - **Definition**: Overlays involve loading only the required part of a program into memory.
+   unloading it when done, and loading a new part as needed. This technique efficiently manages memory usage.
 
 ### 41. **Page Table, Frames, Pages**
    - **Page Table**: Maps logical pages to physical frames.
    - **Frame**: Fixed-size physical memory block.
    - **Page**: Fixed-size block of logical memory.
 
-### 42
-
-. **Paging & Its Need**
-   - **Definition**: Dividing memory into pages to handle data efficiently.
+### 42. Paging
+   - **Definition**: Paging is a memory management technique for non-contiguous memory allocation,
+   dividing both main and secondary memory into fixed size partitions called pages and frames,
+   fetching process pages into main memory frames as needed.
    - **Purpose**: Avoids external fragmentation and simplifies memory management.
 
 ### 43. **Segmentation**
    - **Definition**: Dividing memory into segments based on logical units.
 
 ### 44. **Paging vs. Segmentation**
-   - **Paging**: Fixed-size pages, avoids external fragmentation.
-   - **Segmentation**: Variable-size segments, groups data logically.
+   | **Paging**                                                | **Segmentation**                                           |
+|------------------------------------------------------------|------------------------------------------------------------|
+| Program is divided into fixed-size pages.                  | Program is divided into variable-size segments.            |
+| Managed by the operating system.                           | Managed by the compiler.                                   |
+| Page size is set by the hardware.                          | Segment size is defined by the user.                       |
+| Paging can lead to internal fragmentation.                 | Segmentation can lead to external fragmentation.           |
+| Logical address is divided into page number and page offset. | Logical address is divided into segment number and segment offset. |
+| Uses a page table to store the base address of each page.  | Uses a segment table to store the base address of each segment. |
 
 ### 45. **Page Faults**
    - **Definition**: Occurs when a program accesses a page not in physical memory.
@@ -193,12 +265,17 @@
    - **Definition**: Technique that gives applications more memory than physically available.
 
 ### 47. **Demand Paging**
-   - **Definition**: Loads pages into memory only when needed.
+   - **Definition**: Demand paging loads pages into memory only when they are needed,
+which occurs when a page fault happens.
 
 ### 48. **Page Replacement Algorithms**
    - **Types**: FIFO, LRU, Optimal; handle swapping when memory is full.
 
 ### 49. **Thrashing**
-   - **Definition**: Excessive swapping between memory and disk, slowing the system.
+   - **Definition**: Excessive swapping between memory and disk, slowing the system. 
+   
+   - **Thrashing** occurs when a computer spends more time handling page faults 
+   than executing transactions, degrading performance. It happens when the 
+   page fault rate increases, leading to longer service times and reduced efficiency.
 
 --- 
