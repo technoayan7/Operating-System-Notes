@@ -25,13 +25,20 @@
 ### 4. **Program, Process, and Thread**
    - **Program**: A static set of instructions written to perform a task.
    - **Process**: A running instance of a program, actively using resources.
-   - **Process Table**: The operating system manages processes, allocating processor time and resources like memory
-and disks. The process table is maintained by the operating system
-to keep track of all processes, including their states and resources
-they are using.
+
+
+| **Program**                                              | **Process**                                          |
+|---------------------------------------------------------|-----------------------------------------------------|
+| Contains a set of instructions designed to complete a specific task. | Instance of an executing program.                   |
+| Passive entity that resides in secondary memory.       | Active entity created during execution, loaded into main memory. |
+| Exists in a single place until deleted.                | Exists for a limited time, terminating after task completion. |
+| Static entity with no resource requirement.             | Dynamic entity with high resource requirements, needing CPU, memory, and I/O. |
+
+   - **Process Table**: The operating system manages processes, allocating processor time 
+   and resources like memory and disks. The process table is maintained by the OS
+to keep track of all processes, including their states and resources they are using.
    - **Thread**: A thread is a single sequence of execution within a process, often
-called a lightweight process. Threads improve application performance through parallelism. For example, a web browser can use
-multiple threads for different tabs.
+called a lightweight process. Threads improve application performance through parallelism. For example, a web browser can use multiple threads for different tabs.
 
   
   | **Process**                                         | **Thread**                                           |
@@ -191,8 +198,16 @@ time because other processes are prioritized.
    - **Definition**: Hardware that translates logical to physical addresses.
 
 ### 34. **Main vs. Secondary Memory**
-   - **Main Memory**: RAM, directly accessed by CPU, volatile.
-   - **Secondary Memory**: Disk storage, not directly accessed by CPU, non-volatile.
+   Here are six important differences between primary memory and secondary memory, presented succinctly:
+
+| **Primary Memory**                                        | **Secondary Memory**                                     |
+|----------------------------------------------------------|---------------------------------------------------------|
+| Used for temporary data storage while the computer is running. | Used for permanent data storage, retaining information long-term. |
+| Faster access speed as it is directly accessible by the CPU. | Slower access speed; not directly accessible by the CPU. |
+| Volatile in nature; data is lost when power is turned off. | Non-volatile; retains data even when power is off.      |
+| More expensive due to the use of semiconductor technology. | Less expensive, often using magnetic or optical technology. |
+| Capacity ranges from 16 to 32 GB, suitable for active tasks. | Capacity can range from 200 GB to several terabytes for extensive storage. |
+| Examples include RAM, ROM, and Cache memory.             | Examples include Hard Disk Drives, Floppy Disks, and Magnetic Tapes. |
 
 ### 35. **Cache**
    - **Definition**: Small, fast memory close to the CPU for quick access to frequently used data.
