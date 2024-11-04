@@ -60,10 +60,25 @@ table is an array of PCBs, each representing a process in the system.
    - **Kernel**: The kernel is the core component of an operating system, managing
 memory, CPU time, and hardware operations. It acts as a bridge
 between applications and hardware-level data processing.
+
+| **Kernel**                                              | **Operating System (OS)**                                  |
+|---------------------------------------------------------|-----------------------------------------------------------|
+| Central component of the OS.                            | System software that manages system resources.            |
+| Converts user commands into machine-level instructions. | Manages overall system resources and operations.          |
+| Acts as an interface between hardware and applications. | Acts as an interface between hardware and the user.       |
+| Handles process, file, device management, and I/O.      | Provides data security, user access control, and privacy. |
+| Types include Microkernel, Monolithic kernel, etc.      | Types include Single and Multiprogramming, Distributed OS, Real-time OS. |
    - **Monolithic Kernel**: A monolithic kernel manages system resources and implements 
    user and kernel services in the same address space, making the OS execution faster
-   but increasing its size. It handles CPU scheduling, memory management, file management,
-and other functions through system calls.
+   but increasing its size. It handles CPU scheduling, memory management, file management, and other functions through system calls.
+
+   | **Microkernel**                                             | **Monolithic Kernel**                                        |
+|-------------------------------------------------------------|-------------------------------------------------------------|
+| Kernel and user services are in separate address spaces.    | Kernel and user services are in the same address space.      |
+| Smaller in size compared to a monolithic kernel.            | Larger in size than a microkernel.                           |
+| More easily extendible.                                     | Harder to extend.                                            |
+| Service crashes do not affect the microkernel's operation.  | A service crash can cause the entire system to crash.        |
+| Uses message queues for inter-process communication (IPC).  | Uses signals and sockets for inter-process communication.     |
 
 ### 6. **Multitasking vs. Multithreading**
 
@@ -76,14 +91,28 @@ and other functions through system calls.
 | Involves sharing computing resources among threads of a single process. | Involves sharing computing resources (CPU, memory, devices) among multiple processes. |
 
 ### 7. **Multitasking vs. Multiprocessing**
-   - **Multitasking**: Uses one CPU to run multiple tasks by quickly switching between them.
-   - **Multiprocessing**: Uses multiple CPUs or cores to run tasks simultaneously, improving performance.
+   | **Multitasking**                                            | **Multiprocessing**                                         |
+|-------------------------------------------------------------|-------------------------------------------------------------|
+| Performs multiple tasks using a single processor.           | Performs multiple tasks using multiple processors.          |
+| Has only one CPU.                                           | Has more than one CPU.                                      |
+| More economical.                                            | Less economical.                                            |
+| Less efficient than multiprocessing.                        | More efficient than multitasking.                           |
+| Allows fast switching between tasks.                        | Allows smooth simultaneous task processing.                 |
+| Requires more time to execute tasks.                        | Requires less time for task processing.                     |
 
 ### 8. **Process States and Queues**
-   - **Process States**: New, Ready, Running, Waiting, Terminated.
+
+   - **Process States**:  
+     Different states that a process goes through include:
+     - **New State**: The process is just created.
+     - **Running**: The CPU is actively executing the process's instructions.
+     - **Waiting**: The process is paused, waiting for an event to occur.
+     - **Ready**: The process has all necessary resources and is waiting for CPU assignment.
+     - **Terminate**: The process has completed execution and is finished.
+
    - **Process Queues**:
-     - **Ready Queue**: Holds processes ready for CPU time.
-     - **Waiting Queue**: Holds processes waiting for I/O.
+     - **Ready Queue**: Holds processes that are ready for CPU time.
+     - **Waiting Queue**: Holds processes that are waiting for I/O operations.
 
 ### 9. **Inter-Process Communication (IPC)**
    - **Purpose**: Allows processes to communicate and share data.
@@ -147,19 +176,40 @@ time because other processes are prioritized.
 ### 23. **Critical Section**
    - **Definition**: A part of code that accesses shared resources and must not be executed by more than one process at a time.
 
-### 24. **Conditional Variable**
-   - **Definition**: 
 
-### 25. **Synch*ronization techniques?**
+### 24. **Synchronization techniques?**
 
- - - *Mutexes*
- - - *Condition variables*
- - - *Semaphores*
- - - *File locks*
+    -  Mutexes
+    -  Condition variables
+    -  Semaphores
+    -  File locks
 
 - **Mutex**: Only allows one process at a time, preventing concurrent access.
 - **Conditional Variable**: A variable used to control access in multithreading, allowing threads to wait until certain conditions are met.
 - **Semaphore**: Allows multiple processes to access resources up to a limit.
+
+
+### 25. Semaphore in OS
+
+A **Semaphore** is a synchronization tool used in operating systems to manage access to shared resources in multi-threaded or multi-process systems. It keeps a count of available resources and uses two atomic operations, `wait()` and `signal()`, to control access.
+
+#### Types of Semaphores:
+1. **Binary Semaphore**:  
+   - Has values 0 or 1.
+   - Signals availability of a single resource.
+
+2. **Counting Semaphore**:  
+   - Can have values greater than 1.
+   - Controls access to multiple instances of a resource, like a pool of connections.
+
+#### Binary Semaphore vs Mutex:
+| **Binary Semaphore**                                 | **Mutex**                                         |
+|-----------------------------------------------------|---------------------------------------------------|
+| Signals availability of a shared resource (0 or 1). | Allows mutual exclusion with a single lock.       |
+| Uses signaling mechanisms.                          | Uses a locking mechanism.                         |
+| Faster in some cases with multiple processes.       | Slower when frequently contended.                 |
+| Integer variable holding 0 or 1.                    | Object holding lock state and lock owner info.    |
+
 
 
 ### 26. **Binary vs. Counting Semaphores**
@@ -174,17 +224,42 @@ time because other processes are prioritized.
    - **Definition**: An increase in page faults despite increasing memory pages in certain algorithms.
    - **Occurs In**: FIFO page replacement algorithm.
 
-### 29. **Deadlock, Conditions & Prevention**
-   - **Deadlock**: Processes hold resources while waiting for others, causing a standstill.
-   - **Conditions**: Mutual exclusion, hold and wait, no preemption, circular wait.
-   - **Prevention**: Avoid one or more conditions using strategies like ordering resources.
+### 29. **What is a Deadlock in OS?**
+- A deadlock is a situation in which a set of processes are blocked because each process holds resources and waits to acquire additional resources held by another process.
+- In this scenario, two or more processes are unable to proceed because they are waiting for each other to release resources.
+- Deadlocks commonly occur in multiprocessing environments and can result in the system becoming unresponsive.
 
+### Necessary Conditions for Deadlock
+1. **Mutual Exclusion**: Resources cannot be shared; at least one resource must be held in a non-shareable mode.
+2. **Hold and Wait**: Processes holding resources are allowed to wait for additional resources.
+3. **No Pre-emption**: Resources cannot be forcibly taken from a process; they must be voluntarily released.
+4. **Circular Wait**: There exists a set of processes such that each process is waiting for a resource held by the next process in the cycle.
 ### 30. **Banker’s Algorithm**
    - **Purpose**: Deadlock avoidance algorithm in resource allocation.
    - **Method**: Checks if resources can be safely allocated without causing deadlock.
 
-### 31. **Buffer**
-   - **Definition**: Temporary memory storage area for data exchange between components.
+### 31. Methods for Handling Deadlock
+
+1. **Deadlock Prevention**:
+   - Ensure that at least one necessary condition for deadlock cannot hold.
+   - Allow resource sharing (Mutual Exclusion).
+   - Require all resources to be requested upfront (Hold and Wait).
+   - Permit resource preemption (No Pre-emption).
+   - Impose a strict order for resource allocation (Circular Wait).
+
+2. **Deadlock Avoidance**:
+   - Dynamically examine resource allocation to prevent circular wait.
+   - Use the Banker’s Algorithm to determine safe states; deny requests that would lead to an unsafe state.
+
+3. **Deadlock Detection**:
+   - Allow the system to enter a deadlock state, then detect it.
+   - Use a Wait-for Graph to represent wait-for relationships; a cycle indicates a deadlock.
+   - Employ a Resource Allocation Graph to check for cycles and determine the presence of deadlock. 
+
+4. **Deadlock Recovery**:
+   - Terminate one or more processes involved in the deadlock (abruptly or gracefully).
+   - Use resource preemption to take resources from processes and allocate them to others to break the deadlock.
+
 
 ### 32. **Logical vs. Physical Address Space**
    | **Parameter**            | **Logical Address**                               | **Physical Address**                              |
@@ -264,20 +339,30 @@ them when ready. It helps manage different data access rates of devices
    - **Definition**: Dividing memory into segments based on logical units.
 
 ### 44. **Paging vs. Segmentation**
-   | **Paging**                                                | **Segmentation**                                           |
-|------------------------------------------------------------|------------------------------------------------------------|
-| Program is divided into fixed-size pages.                  | Program is divided into variable-size segments.            |
-| Managed by the operating system.                           | Managed by the compiler.                                   |
-| Page size is set by the hardware.                          | Segment size is defined by the user.                       |
-| Paging can lead to internal fragmentation.                 | Segmentation can lead to external fragmentation.           |
-| Logical address is divided into page number and page offset. | Logical address is divided into segment number and segment offset. |
-| Uses a page table to store the base address of each page.  | Uses a segment table to store the base address of each segment. |
+   | **Paging**                                             | **Segmentation**                                       |
+|--------------------------------------------------------|-------------------------------------------------------|
+| Invisible to the programmer.                           | Visible to the programmer.                            |
+| Fixed-size pages.                                      | Variable-size segments.                               |
+| Procedures and data cannot be separated.               | Procedures and data can be separated.                 |
+| Allows virtual address space to exceed physical memory.| Breaks programs, data, and code into independent spaces. |
+| Mostly found on CPUs and MMU chips.                    | Commonly found on Windows servers, limited in Linux.  |
+| Faster memory access than segmentation.                | Slower memory access compared to paging.              |
+| Results in internal fragmentation.                     | Results in external fragmentation.                   |
+
 
 ### 45. **Page Faults**
    - **Definition**: Occurs when a program accesses a page not in physical memory.
 
-### 46. **Virtual Memory**
-   - **Definition**: Technique that gives applications more memory than physically available.
+### 46. **What is virtual memory?**
+
+     - A memory management technique in operating systems.
+     - Creates the illusion of a large contiguous address space.
+     - Extends physical memory using disk space.
+     - Allows more programs to run simultaneously.
+     - Stores data in pages for efficient memory use.
+     - Provides memory protection.
+     - Managed through methods like paging and segmentation.
+     - Acts as temporary storage alongside RAM for processes.
 
 ### 47. **Demand Paging**
    - **Definition**: Demand paging loads pages into memory only when they are needed,
