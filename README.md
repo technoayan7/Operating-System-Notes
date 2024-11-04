@@ -17,15 +17,19 @@
 
 ### 3. **Real-Time Operating System (RTOS) & Types**
    - **Definition**: An OS designed for real-time applications where responses are needed within a specific time.
-   - **Types**:
-     - **Hard RTOS**: Guarantees critical tasks are completed on time.
-     - **Soft RTOS**: Prioritizes timely responses but allows minor delays.
-     - **Firm RTOS**: Tasks have deadlines, but some can miss them without major issues.
+  
 
-### 4. **Program, Process, and Thread**
-   - **Program**: A static set of instructions written to perform a task.
-   - **Process**: A running instance of a program, actively using resources.
+### 4. **Program, Process and Thread**
+   - A **process** is essentially a program that is currently under execution.
+   - The main function of an **Operating System (OS)** is to manage and handle all processes.
 
+   When a program is loaded into memory and becomes a process, it can be divided into four sections:
+   - **Stack**: Stores temporary data such as function parameters, return addresses, and local variables.
+   - **Heap**: Dynamically allocated memory during the execution of the program.
+   - **Text**: Contains the compiled code of the program.
+   - **Data**: Holds global and static variables.
+
+   There are two types of processes: Operating System Processes and User Processes
 
 | **Program**                                              | **Process**                                          |
 |---------------------------------------------------------|-----------------------------------------------------|
@@ -70,7 +74,8 @@ between applications and hardware-level data processing.
 | Types include Microkernel, Monolithic kernel, etc.      | Types include Single and Multiprogramming, Distributed OS, Real-time OS. |
    - **Monolithic Kernel**: A monolithic kernel manages system resources and implements 
    user and kernel services in the same address space, making the OS execution faster
-   but increasing its size. It handles CPU scheduling, memory management, file management, and other functions through system calls.
+   but increasing its size. It handles CPU scheduling, memory management, file management, 
+   and other functions through system calls.
 
    | **Microkernel**                                             | **Monolithic Kernel**                                        |
 |-------------------------------------------------------------|-------------------------------------------------------------|
@@ -364,14 +369,42 @@ them when ready. It helps manage different data access rates of devices
      - Managed through methods like paging and segmentation.
      - Acts as temporary storage alongside RAM for processes.
 
-### 47. **Demand Paging**
+
+### 47. **Objective of Multiprogramming?**
+
+    - Multiprogramming allows multiple programs to run on a single processor.
+    - It addresses underutilization of the CPU and main memory.
+    - The technique coordinates the execution of several programs simultaneously.
+    - The main objective is to have processes running at all times.
+    - It improves CPU utilization by organizing multiple jobs for continuous execution.
+
+### 48. **Demand Paging**
    - **Definition**: Demand paging loads pages into memory only when they are needed,
 which occurs when a page fault happens.
 
-### 48. **Page Replacement Algorithms**
-   - **Types**: FIFO, LRU, Optimal; handle swapping when memory is full.
+### 49. **Page Replacement Algorithms**
+    - manage how pages are swapped in and out of physical memory when a page fault occurs.
 
-### 49. **Thrashing**
+    1. Least Recently Used (LRU):
+    - Replaces the page that has not been used for the longest time.
+    - Keeps track of page usage over time.
+
+    2. First-In, First-Out (FIFO):
+    - Replaces the oldest page in memory.
+    - Simple to implement but can lead to suboptimal performance.
+
+    3. Optimal Page Replacement:
+    - Replaces the page that will not be used for the longest period in the future.
+    - Provides the best performance but is impractical to implement since future requests are unknown.
+
+    4. Least Frequently Used (LFU):
+    - Replaces the page that has the lowest access frequency.
+    - Pages are tracked based on the number of accesses over time.
+
+
+These algorithms play a critical role in optimizing memory management and ensuring efficient system performance.
+
+### 50. **Thrashing**
    - **Definition**: Excessive swapping between memory and disk, slowing the system. 
    
    - **Thrashing** occurs when a computer spends more time handling page faults 
